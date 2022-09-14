@@ -1,24 +1,24 @@
+#include <iomanip>
 #include <iostream>
+#include <limits>
 #include <string>
 
 void menu();
 void encryption(std::string, int);
 void decryption(std::string, int);
 void refreshUi(bool);
-void errorMessage(std::string s);
+void ignoreLine();
+void errorMessage(std::string);
 
-int main()
-{
+int main() {
   char yesNo;
 
-  do
-  {
+  do {
     yesNo = ' ';
     std::cout << "\n.:: Shift Cipher ::.\n\n";
     menu();
 
-    while (toupper(yesNo) != 'Y' && toupper(yesNo) != 'N')
-    {
+    while (toupper(yesNo) != 'Y' && toupper(yesNo) != 'N') {
       std::cout << "\n\nJalankan lagi (Y/N)\t> ";
       std::cin >> yesNo;
       std::cin.ignore();
@@ -29,8 +29,7 @@ int main()
   return 0;
 }
 
-void menu()
-{
+void menu() {
   std::string message;
   int key;
   std::cout << "Message\t> ";
@@ -46,8 +45,7 @@ void menu()
   std::cout << "Pilih operasi\t> ";
   std::cin >> op;
 
-  switch (op)
-  {
+  switch (op) {
   case 1:
     encryption(message, key);
     break;
@@ -60,47 +58,40 @@ void menu()
   }
 }
 
-void encryption(std::string message, int key)
-{
+void encryption(std::string message, int key) {
   std::cout << "\n:: Enkripsi >\n";
   std::cout << "message\t: " << message << '\n';
   std::cout << "key\t: " << key << "\n\n";
 
   std::string hasil = "";
 
-  for (int i = 0; i < message.length(); i++)
-  {
+  for (int i = 0; i < message.length(); i++) {
     // deteksi spasi
-    if (message[i] == ' ')
-    {
+    if (message[i] == ' ') {
       hasil += ' ';
       continue;
     }
 
     // huruf kapital
     if (isupper(message[i]))
-      hasil += char(int(message[i] + key - 'A') % 26 + 'A');
+      hasil += char(int(message[i] + key - 65) % 26 + 65);
     // huruf non kapital
     else
-      hasil += char(int(message[i] + key - 'a') % 26 + 'a');
+      hasil += char(int(message[i] + key - 97) % 26 + 97);
   }
 
-  std::cout << "Enkripsi cipher code >\n"
-            << hasil << '\n';
+  std::cout << "Enkripsi cipher code >\n" << hasil << '\n';
 }
-void decryption(std::string message, int key)
-{
+void decryption(std::string message, int key) {
   std::cout << "\n:: Dekripsi >\n";
   std::cout << "message\t: " << message << '\n';
   std::cout << "key\t: " << key << "\n\n";
 
   std::string hasil = "";
 
-  for (int i = 0; i < message.length(); i++)
-  {
+  for (int i = 0; i < message.length(); i++) {
     // deteksi spasi
-    if (message[i] == ' ')
-    {
+    if (message[i] == ' ') {
       hasil += ' ';
       continue;
     }
@@ -113,14 +104,11 @@ void decryption(std::string message, int key)
       hasil += char(int(message[i] + (26 - key) - 97) % 26 + 97);
   }
 
-  std::cout << "Hasil plain text >\n"
-            << hasil << '\n';
+  std::cout << "Hasil plain text >\n" << hasil << '\n';
 }
 
-void refreshUi(bool wait = false)
-{
-  if (wait)
-  {
+void refreshUi(bool wait = false) {
+  if (wait) {
     std::cout << "Press any key to continue...";
     std::cin.ignore();
     std::cin.get();
@@ -128,8 +116,11 @@ void refreshUi(bool wait = false)
   std::cout << "\033[2J\033[1;1H";
 }
 
-void errorMessage(std::string s)
-{
+void ignoreLine() {
+  std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+}
+
+void errorMessage(std::string s) {
   std::cout << "\n//ERROR\n";
   std::cout << s.c_str() << '\n';
   refreshUi();
