@@ -1,3 +1,12 @@
+/*
+Kelompok 3
+
+140810200041 - Alvaro
+140810200045 - Amalia
+140810200049 - Rasyid
+140810200055 - Wafa
+140810200061 - Andyka
+*/
 #include <iomanip>
 #include <iostream>
 #include <limits>
@@ -71,7 +80,6 @@ void encryption(std::string message, int key) {
       hasil += ' ';
       continue;
     }
-
     // huruf kapital
     if (isupper(message[i]))
       hasil += char(int(message[i] + key - 65) % 26 + 65);

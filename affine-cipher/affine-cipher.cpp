@@ -132,9 +132,13 @@ void decryption(std::string message, int b, int a) {
     if (isupper(message[i]))
       hasil = hasil + (char)(((a_inv * (message[i] + 'A' - b)) % 26) + 'A');
     // huruf non kapital
-    else
-      hasil = hasil +
-              (char)(((a_inv * (message[i] + 'a' - b) - offset) % 26) + 'a');
+    else {
+      int res = ((a_inv * ((message[i] - 'a') - b)) % 26) + 'a';
+      if (res < 'a') {
+        res += 26;
+      }
+      hasil = hasil + (char)res;
+    }
   }
 
   std::cout << "Hasil plain text >\n" << hasil << '\n';
